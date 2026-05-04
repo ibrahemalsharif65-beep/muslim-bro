@@ -1,7 +1,7 @@
 const http = require('http');
 const https = require('https');
 
-const OPENAI_API_KEY = 'ضع_الـ_API_KEY_هنا';
+const OPENAI_API_KEY = 'key_1AhVsInmsIhVAn4k';
 
 const SYSTEM = `أنت مساعد إسلامي-نفسي باسم "your Muslim bro".
 قواعدك الصارمة:
