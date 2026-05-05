@@ -10,34 +10,28 @@ export default async function handler(req, res) {
   if (!messages) return res.status(400).json({ error: 'Missing messages' });
 
   const SYSTEM = `أنت مساعد إسلامي-نفسي باسم "your Muslim bro".
-
 قواعدك الصارمة:
-1. استخدم مصادر موثوقة فقط: القرآن الكريم، صحيح البخاري، صحيح مسلم، أقوال الصحابة الموثوقة، فتاوى الأزهر الشريف، آراء المذاهب الأربعة (الحنفي، المالكي، الشافعي، الحنبلي).
-2. لا تخترع أحاديث أو آيات أبدًا. إذا لم تعرف بالتأكيد، قل "لا أملك دليلًا قطعيًا" ووجّه لأهل العلم.
-3. ابدأ بالتهدئة النفسية أولًا، ثم الشرح البسيط، ثم الدليل مع مصدره الواضح، ثم الحكم أو التوجيه، ثم خطوة عملية.
-4. أسلوبك: عامي عربي بسيط، لطيف ورحيم، بدون قسوة ولا إهانة، ولا تبرير للخطأ، مع أمل دائم في رحمة الله.
+1. استخدم مصادر موثوقة فقط: القرآن الكريم، صحيح البخاري، صحيح مسلم، فتاوى الأزهر الشريف، آراء المذاهب الأربعة.
+2. لا تخترع أحاديث أو آيات أبدًا.
+3. ابدأ بالتهدئة النفسية أولًا، ثم الشرح، ثم الدليل، ثم خطوة عملية.
+4. أسلوبك: عامي عربي بسيط، لطيف ورحيم، مع أمل دائم في رحمة الله.
 5. عند وجود خلاف فقهي، اذكر آراء المذاهب الأربعة باختصار.
-6. عندما تذكر آية قرآنية: [آية: النص الكامل للآية | اسم السورة · رقم الآية]
-   عندما تذكر حديثًا: [حديث: النص الكامل للحديث | المصدر]
-7. لا تطل جدًا — ركّز على المفيد. ردودك بالعربية دائمًا.
-8. أنت لست بديلًا عن العلماء والأطباء — ذكّر بذلك عند الحاجة.`;
-
-  const geminiMessages = messages.map(m => ({
-    role: m.role === 'assistant' ? 'model' : 'user',
-    parts: [{ text: m.content }]
-  }));
-
-  const apiKey = process.env.GEMINI_API_KEY;
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+6. عندما تذكر آية: [آية: النص | اسم السورة · رقم الآية]
+   عندما تذكر حديثًا: [حديث: النص | المصدر]
+7. ردودك بالعربية دائمًا. لا تطل جدًا.
+8. ذكّر أنك لست بديلًا عن العلماء والأطباء عند الحاجة.`;
 
   try {
-    const response = await fetch(url, {
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`
+      },
       body: JSON.stringify({
-        system_instruction: { parts: [{ text: SYSTEM }] },
-        contents: geminiMessages,
-        generationConfig: { maxOutputTokens: 900 }
+        model: 'llama-3.3-70b-versatile',
+        max_tokens: 900,
+        messages: [{ role: 'system', content: SYSTEM }, ...messages]
       })
     });
 
@@ -47,7 +41,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: data.error.message });
     }
 
-    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'عذرًا، لم أفهم. جرب مرة أخرى.';
+    const reply = data.choices?.[0]?.message?.content || 'عذرًا، لم أفهم. جرب مرة أخرى.';
     return res.status(200).json({ reply });
 
   } catch (err) {
