@@ -684,7 +684,7 @@ body.dark .logout-card { background: #2a1515; border-color: #4a2525; }
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 0 0 12 2a10 10 0 0 0-7.07 2.93"/><path d="M4.93 19.07A10 10 0 0 0 12 22a10 10 0 0 0 7.07-2.93"/></svg>
       الإعدادات
     </button>
-    <div class="user-info" id="userInfo">
+    <div class="user-info" id="userInfo" onclick="userInfoClick()">
       <div class="user-av" id="sidebarAv">ز</div>
       <div>
         <div class="user-name" id="sidebarName">زائر</div>
@@ -1239,6 +1239,13 @@ function doLogout() {
   document.getElementById('authBtn').textContent = 'دخول';
   hideSettings();
   newChat();
+}
+
+function userInfoClick() {
+  if (!currentUser) {
+    closeSidebar();
+    document.getElementById('authOverlay').style.display = 'flex';
+  }
 }
 
 // Mobile sidebar
