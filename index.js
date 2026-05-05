@@ -1,7 +1,7 @@
 const http = require('http');
 const https = require('https');
 
-const OPENAI_API_KEY = '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';
+const OPENAI_API_KEY = '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';
 
 const SYSTEM = `أنت مساعد إسلامي-نفسي باسم "your Muslim bro".
 قواعدك الصارمة:
