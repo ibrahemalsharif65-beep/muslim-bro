@@ -1,5 +1,4 @@
 export default async function handler(req, res) {
-  // Allow CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -18,22 +17,27 @@ export default async function handler(req, res) {
 3. ابدأ بالتهدئة النفسية أولًا، ثم الشرح البسيط، ثم الدليل مع مصدره الواضح، ثم الحكم أو التوجيه، ثم خطوة عملية.
 4. أسلوبك: عامي عربي بسيط، لطيف ورحيم، بدون قسوة ولا إهانة، ولا تبرير للخطأ، مع أمل دائم في رحمة الله.
 5. عند وجود خلاف فقهي، اذكر آراء المذاهب الأربعة باختصار.
-6. عندما تذكر آية قرآنية، ضعها هكذا بالضبط: [آية: النص الكامل للآية | اسم السورة · رقم الآية]
+6. عندما تذكر آية قرآنية: [آية: النص الكامل للآية | اسم السورة · رقم الآية]
    عندما تذكر حديثًا: [حديث: النص الكامل للحديث | المصدر]
 7. لا تطل جدًا — ركّز على المفيد. ردودك بالعربية دائمًا.
 8. أنت لست بديلًا عن العلماء والأطباء — ذكّر بذلك عند الحاجة.`;
 
+  const geminiMessages = messages.map(m => ({
+    role: m.role === 'assistant' ? 'model' : 'user',
+    parts: [{ text: m.content }]
+  }));
+
+  const apiKey = process.env.GEMINI_API_KEY;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
   try {
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    const response = await fetch(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'gpt-4o',
-        max_tokens: 900,
-        messages: [{ role: 'system', content: SYSTEM }, ...messages]
+        system_instruction: { parts: [{ text: SYSTEM }] },
+        contents: geminiMessages,
+        generationConfig: { maxOutputTokens: 900 }
       })
     });
 
@@ -43,9 +47,9 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: data.error.message });
     }
 
-    return res.status(200).json({
-      reply: data.choices?.[0]?.message?.content || 'عذرًا، لم أفهم. جرب مرة أخرى.'
-    });
+    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'عذرًا، لم أفهم. جرب مرة أخرى.';
+    return res.status(200).json({ reply });
+
   } catch (err) {
     return res.status(500).json({ error: 'Server error: ' + err.message });
   }
