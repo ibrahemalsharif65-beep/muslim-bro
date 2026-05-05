@@ -5,348 +5,863 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Your Muslim Bro</title>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Cairo', sans-serif;
-    background: #f0f4f2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 10px;
-  }
-  .phone {
-    width: 390px;
-    max-width: 100%;
-    background: #f7faf8;
-    border-radius: 28px;
-    overflow: hidden;
-    box-shadow: 0 8px 40px rgba(15,110,86,0.13);
-    display: flex;
-    flex-direction: column;
-    height: 92vh;
-    max-height: 820px;
-  }
-  .header {
-    background: #fff;
-    border-bottom: 1px solid #e0ede8;
-    padding: 14px 16px 12px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .av {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: #0F6E56;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px; color: #E1F5EE; font-weight: 600;
-    border: 2px solid #5DCAA5;
-    flex-shrink: 0;
-  }
-  .hname { font-size: 15px; font-weight: 600; color: #1a1a1a; }
-  .hstatus { font-size: 11px; color: #1D9E75; margin-top: 1px; }
-  .ornament {
-    font-family: 'Amiri', serif;
-    font-size: 13px;
-    color: #0F6E56;
-    text-align: center;
-    padding: 9px 0 5px;
-    background: #fff;
-    border-bottom: 1px solid #e0ede8;
-  }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-  /* AUTH SCREEN */
-  .auth-screen {
-    overflow-y: auto;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 24px 20px;
-    gap: 14px;
-  }
-  .auth-title { font-size: 16px; font-weight: 600; color: #085041; }
-  .auth-sub { font-size: 12px; color: #888; text-align: center; }
-  .auth-inp {
-    width: 100%;
-    border: 1px solid #c5e8d8;
-    border-radius: 12px;
-    padding: 11px 14px;
-    font-family: 'Cairo', sans-serif;
-    font-size: 13px;
-    outline: none;
-    background: #fff;
-    direction: rtl;
-    color: #1a1a1a;
-  }
-  .auth-inp:focus { border-color: #1D9E75; }
-  .auth-btn {
-    width: 100%;
-    background: #0F6E56;
-    color: #E1F5EE;
-    border: none;
-    border-radius: 12px;
-    padding: 12px;
-    font-family: 'Cairo', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background .15s;
-  }
-  .auth-btn:hover { background: #1D9E75; }
-  .auth-toggle {
-    font-size: 12px;
-    color: #1D9E75;
-    cursor: pointer;
-    text-decoration: underline;
-  }
-  .auth-error {
-    font-size: 12px;
-    color: #a33;
-    background: #fff3f3;
-    border: 1px solid #f0b0b0;
-    border-radius: 8px;
-    padding: 8px 12px;
-    width: 100%;
-    text-align: center;
-    display: none;
-  }
-  .profile-fields { width: 100%; display: flex; flex-direction: column; gap: 10px; }
-  .profile-label { font-size: 12px; color: #085041; margin-bottom: 2px; }
-  select.auth-inp { cursor: pointer; }
+:root {
+  --bg: #f7f7f8;
+  --sidebar: #fff;
+  --card: #fff;
+  --text: #0d0d0d;
+  --sub: #8e8ea0;
+  --border: #e5e5ea;
+  --primary: #10a37f;
+  --primary-dark: #0d8c6d;
+  --primary-light: #e6f7f3;
+  --user-bubble: #10a37f;
+  --bot-bubble: #fff;
+  --bot-border: #e5e5ea;
+  --input-bg: #fff;
+  --hover: #f0f0f0;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
 
-  /* CHAT SCREEN */
-  .chat-screen { flex: 1; display: none; flex-direction: column; overflow: hidden; }
-  .chat {
-    flex: 1;
-    overflow-y: auto;
-    padding: 10px 13px;
-    display: flex;
-    flex-direction: column;
-    gap: 9px;
-    scroll-behavior: smooth;
-  }
-  .ts { font-size: 10px; color: #999; text-align: center; padding: 2px 0; }
-  .row { display: flex; align-items: flex-end; gap: 7px; }
-  .row.u { flex-direction: row-reverse; }
-  .mav {
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 10px; font-weight: 600;
-  }
-  .mav.b { background: #E1F5EE; color: #0F6E56; border: 1px solid #9FE1CB; }
-  .mav.u { background: #EEEDFE; color: #534AB7; border: 1px solid #CECBF6; }
-  .bub {
-    max-width: 78%;
-    padding: 10px 13px;
-    font-size: 13.5px;
-    line-height: 1.75;
-    border-radius: 16px;
-  }
-  .bub.b { background: #fff; border: 1px solid #ddeee8; border-bottom-right-radius: 4px; color: #1a1a1a; }
-  .bub.u { background: #0F6E56; color: #E1F5EE; border-bottom-left-radius: 4px; }
-  .ayah {
-    margin-top: 8px;
-    padding: 8px 10px;
-    background: #E1F5EE;
-    border-right: 3px solid #1D9E75;
-    font-family: 'Amiri', serif;
-    font-size: 14px;
-    color: #085041;
-    line-height: 2;
-  }
-  .asrc { font-size: 10.5px; color: #0F6E56; margin-top: 3px; font-family: 'Cairo', sans-serif; }
-  .typing {
-    display: flex; align-items: center; gap: 4px;
-    padding: 10px 13px;
-    background: #fff;
-    border: 1px solid #ddeee8;
-    border-radius: 16px;
-    border-bottom-right-radius: 4px;
-    width: fit-content;
-  }
-  .dot { width: 6px; height: 6px; background: #1D9E75; border-radius: 50%; animation: blink 1.2s infinite; opacity: 0.6; }
-  .dot:nth-child(2) { animation-delay: .2s; }
-  .dot:nth-child(3) { animation-delay: .4s; }
-  @keyframes pulse {
-    0%,100% { opacity:1; }
-    50% { opacity:0.5; }
-  }
-  @keyframes blink {
-    0%,80%,100% { transform: translateY(0); }
-    40% { transform: translateY(-5px); opacity: 1; }
-  }
-  .sugs {
-    padding: 6px 13px 7px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    background: #f7faf8;
-    border-top: 1px solid #e0ede8;
-  }
-  .chip {
-    background: #fff;
-    border: 1px solid #9FE1CB;
-    border-radius: 20px;
-    padding: 5px 12px;
-    font-size: 12px;
-    color: #0F6E56;
-    cursor: pointer;
-    font-family: 'Cairo', sans-serif;
-    font-weight: 500;
-    transition: background .15s;
-  }
-  .chip:hover { background: #E1F5EE; }
-  .duaa-chip { background: #E1F5EE; border-color: #1D9E75; color: #085041; font-weight: 600; }
-  .duaa-chip:hover { background: #c5f0e0; }
-  .inp-area {
-    background: #fff;
-    border-top: 1px solid #e0ede8;
-    padding: 10px 12px;
-    display: flex;
-    gap: 8px;
-    align-items: flex-end;
-  }
-  .tinp {
-    flex: 1;
-    border: 1px solid #c5e8d8;
-    border-radius: 20px;
-    padding: 9px 14px;
-    font-family: 'Cairo', sans-serif;
-    font-size: 13.5px;
-    resize: none;
-    min-height: 40px;
-    max-height: 90px;
-    outline: none;
-    color: #1a1a1a;
-    background: #f7faf8;
-    direction: rtl;
-    overflow-y: auto;
-  }
-  .tinp:focus { border-color: #1D9E75; background: #fff; }
-  .tinp::placeholder { color: #aaa; }
-  .sbtn {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: #0F6E56;
-    border: none;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    transition: background .15s, transform .1s;
-  }
-  .sbtn:hover { background: #1D9E75; }
-  .sbtn:active { transform: scale(0.94); }
-  .disc { font-size: 10px; color: #aaa; text-align: center; padding: 4px 16px 10px; background: #fff; }
-  .error-msg {
-    background: #fff3f3;
-    border: 1px solid #f0b0b0;
-    border-radius: 10px;
-    padding: 8px 12px;
-    font-size: 12px;
-    color: #a33;
-    margin: 6px 13px;
-    display: none;
-  }
-  .logout-btn {
-    background: none;
-    border: none;
-    font-size: 11px;
-    color: #aaa;
-    cursor: pointer;
-    font-family: 'Cairo', sans-serif;
-    padding: 2px 6px;
-  }
-  .logout-btn:hover { color: #a33; }
+body.dark {
+  --bg: #212121;
+  --sidebar: #171717;
+  --card: #2f2f2f;
+  --text: #ececec;
+  --sub: #8e8ea0;
+  --border: #3d3d3d;
+  --primary: #10a37f;
+  --primary-dark: #0d8c6d;
+  --primary-light: #1a3a30;
+  --user-bubble: #10a37f;
+  --bot-bubble: #2f2f2f;
+  --bot-border: #3d3d3d;
+  --input-bg: #2f2f2f;
+  --hover: #3d3d3d;
+  --shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+
+body {
+  font-family: 'Cairo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  transition: background .3s, color .3s;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: 260px;
+  background: var(--sidebar);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  flex-shrink: 0;
+  transition: background .3s, border .3s;
+}
+
+.sidebar-top {
+  padding: 16px 12px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.new-chat-btn {
+  width: 100%;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background .2s;
+}
+.new-chat-btn:hover { background: var(--primary-dark); }
+
+.sidebar-chats {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 8px;
+}
+
+.chat-section-title {
+  font-size: 10px;
+  color: var(--sub);
+  font-weight: 600;
+  padding: 8px 8px 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.chat-item {
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12.5px;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background .15s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.chat-item:hover { background: var(--hover); }
+.chat-item.active { background: var(--primary-light); color: var(--primary); font-weight: 600; }
+.chat-item svg { flex-shrink: 0; opacity: 0.5; }
+
+.sidebar-bottom {
+  padding: 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text);
+  background: none;
+  border: none;
+  font-family: 'Cairo', sans-serif;
+  width: 100%;
+  text-align: right;
+  transition: background .15s;
+}
+.sidebar-btn:hover { background: var(--hover); }
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .15s;
+}
+.user-info:hover { background: var(--hover); }
+.user-av {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--primary);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; color: #fff; font-weight: 700;
+  flex-shrink: 0;
+}
+.user-name { font-size: 13px; font-weight: 500; color: var(--text); }
+.user-email { font-size: 10px; color: var(--sub); }
+
+/* ===== MAIN ===== */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ===== AUTH OVERLAY ===== */
+.auth-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+}
+
+.auth-box {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 32px 28px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.auth-logo {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 4px;
+}
+.auth-title { font-size: 20px; font-weight: 700; color: var(--text); text-align: center; }
+.auth-sub { font-size: 12px; color: var(--sub); text-align: center; }
+
+.auth-inp {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 13.5px;
+  outline: none;
+  background: var(--input-bg);
+  color: var(--text);
+  direction: rtl;
+  transition: border .2s;
+}
+.auth-inp:focus { border-color: var(--primary); }
+.auth-inp::placeholder { color: var(--sub); }
+
+.auth-btn {
+  width: 100%;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s;
+}
+.auth-btn:hover { background: var(--primary-dark); }
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--sub);
+  font-size: 11px;
+}
+.auth-divider::before, .auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.auth-guest {
+  width: 100%;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 11px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  cursor: pointer;
+  transition: background .2s;
+}
+.auth-guest:hover { background: var(--hover); }
+
+.auth-toggle {
+  font-size: 12px;
+  color: var(--sub);
+  text-align: center;
+}
+.auth-toggle span { color: var(--primary); cursor: pointer; font-weight: 600; }
+
+.auth-error {
+  background: #fff0f0;
+  border: 1px solid #fcc;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #c0392b;
+  text-align: center;
+  display: none;
+}
+
+.reg-fields { display: none; flex-direction: column; gap: 10px; }
+.field-label { font-size: 11px; color: var(--sub); margin-bottom: 3px; }
+select.auth-inp { cursor: pointer; }
+
+/* ===== CHAT AREA ===== */
+.chat-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--sidebar);
+}
+.chat-header-title { font-size: 14px; font-weight: 600; color: var(--text); }
+
+.chat-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.msg-row {
+  padding: 8px 20px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.msg-row.user { flex-direction: row-reverse; }
+
+.msg-av {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+  margin-top: 2px;
+}
+.msg-av.bot { background: var(--primary); color: #fff; }
+.msg-av.user { background: #7c3aed; color: #fff; }
+
+.msg-content { max-width: 72%; }
+
+.msg-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--sub);
+  margin-bottom: 4px;
+}
+.msg-row.user .msg-name { text-align: left; }
+
+.bubble {
+  padding: 11px 15px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text);
+}
+.bubble.bot {
+  background: var(--bot-bubble);
+  border: 1px solid var(--bot-border);
+  border-top-right-radius: 4px;
+}
+.bubble.user {
+  background: var(--user-bubble);
+  color: #fff;
+  border-top-left-radius: 4px;
+}
+
+.ayah-block {
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: var(--primary-light);
+  border-right: 3px solid var(--primary);
+  border-radius: 8px;
+  font-family: 'Amiri', serif;
+  font-size: 15px;
+  color: var(--primary-dark);
+  line-height: 2.2;
+}
+body.dark .ayah-block { color: #5dcaa5; }
+.ayah-src { font-size: 11px; color: var(--primary); margin-top: 4px; font-family: 'Cairo', sans-serif; }
+
+/* Typing */
+.typing-row { padding: 8px 20px; display: flex; gap: 14px; align-items: flex-start; }
+.typing-dots { display: flex; gap: 4px; padding: 14px 16px; background: var(--bot-bubble); border: 1px solid var(--bot-border); border-radius: 16px; border-top-right-radius: 4px; }
+.dot { width: 7px; height: 7px; background: var(--sub); border-radius: 50%; animation: bounce 1.2s infinite; }
+.dot:nth-child(2) { animation-delay: .2s; }
+.dot:nth-child(3) { animation-delay: .4s; }
+@keyframes bounce { 0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-7px)} }
+
+/* Welcome */
+.welcome {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  gap: 20px;
+}
+.welcome-logo { font-size: 48px; }
+.welcome-title { font-size: 22px; font-weight: 700; color: var(--text); }
+.welcome-sub { font-size: 13px; color: var(--sub); text-align: center; max-width: 400px; line-height: 1.8; }
+.welcome-ayah {
+  padding: 14px 20px;
+  background: var(--primary-light);
+  border-right: 3px solid var(--primary);
+  border-radius: 10px;
+  font-family: 'Amiri', serif;
+  font-size: 16px;
+  color: var(--primary-dark);
+  line-height: 2.2;
+  text-align: center;
+  max-width: 480px;
+}
+body.dark .welcome-ayah { color: #5dcaa5; }
+.welcome-ayah-src { font-size: 11px; color: var(--primary); margin-top: 6px; font-family: 'Cairo', sans-serif; }
+
+.sugs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  max-width: 500px;
+  width: 100%;
+}
+.sug-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text);
+  font-family: 'Cairo', sans-serif;
+  text-align: right;
+  transition: background .15s, border .15s;
+  line-height: 1.6;
+}
+.sug-card:hover { border-color: var(--primary); background: var(--primary-light); }
+.sug-card .sug-icon { font-size: 20px; margin-bottom: 6px; }
+.sug-card .sug-title { font-weight: 600; font-size: 13px; }
+.sug-card .sug-sub { font-size: 11px; color: var(--sub); }
+
+/* Input */
+.input-area {
+  padding: 12px 20px 16px;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+}
+.input-box {
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 10px 14px;
+  box-shadow: var(--shadow);
+  transition: border .2s;
+}
+.input-box:focus-within { border-color: var(--primary); }
+.tinp {
+  flex: 1;
+  border: none;
+  background: none;
+  font-family: 'Cairo', sans-serif;
+  font-size: 14px;
+  resize: none;
+  min-height: 24px;
+  max-height: 120px;
+  outline: none;
+  color: var(--text);
+  direction: rtl;
+  overflow-y: auto;
+  line-height: 1.6;
+}
+.tinp::placeholder { color: var(--sub); }
+.send-btn {
+  width: 34px; height: 34px;
+  border-radius: 8px;
+  background: var(--primary);
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background .2s, transform .1s;
+}
+.send-btn:hover { background: var(--primary-dark); }
+.send-btn:active { transform: scale(0.92); }
+.send-btn:disabled { background: var(--border); cursor: not-allowed; }
+
+.input-disc { font-size: 10px; color: var(--sub); text-align: center; margin-top: 8px; }
+
+/* Duaa banner */
+.duaa-banner {
+  background: var(--primary-light);
+  border-bottom: 1px solid var(--border);
+  padding: 7px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.duaa-trigger {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+}
+.duaa-tip { font-size: 10px; color: var(--sub); }
+.duaa-btn {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.duaa-msg {
+  background: var(--primary-light);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 20px;
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.9;
+  direction: rtl;
+  display: none;
+}
+.ameen-btn {
+  margin-top: 10px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 20px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* Error */
+.err-bar {
+  background: #fff0f0;
+  border-bottom: 1px solid #fcc;
+  padding: 8px 20px;
+  font-size: 12px;
+  color: #c0392b;
+  display: none;
+}
+body.dark .err-bar { background: #2a1515; border-color: #4a2525; }
+
+/* Settings page */
+.settings-page {
+  display: none;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+}
+.settings-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--sidebar);
+}
+.back-btn {
+  background: var(--hover);
+  border: none;
+  border-radius: 8px;
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--text);
+  font-size: 16px;
+}
+.settings-content { padding: 16px 20px; display: flex; flex-direction: column; gap: 14px; }
+.s-section-title { font-size: 11px; color: var(--sub); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 0 2px; }
+.s-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+.s-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.s-item:last-child { border-bottom: none; }
+.s-item-r { display: flex; align-items: center; gap: 12px; }
+.s-icon { width: 34px; height: 34px; border-radius: 9px; background: var(--primary-light); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.s-label { font-size: 13px; font-weight: 500; color: var(--text); }
+.s-sub { font-size: 11px; color: var(--sub); }
+.toggle {
+  width: 42px; height: 23px;
+  background: var(--border);
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  border: none;
+  transition: background .3s;
+}
+.toggle.on { background: var(--primary); }
+.toggle::after {
+  content: '';
+  position: absolute;
+  width: 17px; height: 17px;
+  background: #fff;
+  border-radius: 50%;
+  top: 3px; right: 3px;
+  transition: transform .3s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.toggle.on::after { transform: translateX(-19px); }
+
+.color-row { display: flex; gap: 10px; padding: 10px 16px 14px; flex-wrap: wrap; }
+.color-dot {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 3px solid transparent;
+  transition: transform .2s, border .2s;
+}
+.color-dot.active { border-color: var(--text); transform: scale(1.15); }
+
+.logout-card {
+  background: #fff0f0;
+  border: 1px solid #fcc;
+  border-radius: 14px;
+  padding: 13px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+body.dark .logout-card { background: #2a1515; border-color: #4a2525; }
+.logout-card span { font-size: 13.5px; font-weight: 500; color: #c0392b; }
+
+/* Mobile sidebar toggle */
+.mob-menu { display: none; }
+
+@media (max-width: 640px) {
+  .sidebar { position: fixed; right: -260px; top: 0; bottom: 0; z-index: 200; transition: right .3s; }
+  .sidebar.open { right: 0; }
+  .mob-menu { display: flex; }
+  .mob-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 199; }
+  .mob-overlay.show { display: block; }
+}
 </style>
 </head>
 <body>
-<div class="phone">
-  <div class="header">
-    <div class="av">أخ</div>
-    <div style="flex:1;">
-      <div class="hname">Your Muslim Bro 🤍</div>
-      <div class="hstatus" id="statusTxt">سجل دخولك للبدء</div>
-    </div>
-    <button class="logout-btn" id="logoutBtn" onclick="logout()" style="display:none;">خروج</button>
-  </div>
 
-  <div style="position:relative;">
-  <div class="ornament">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
-  <div style="position:absolute;top:50%;left:10px;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:2px;">
-    <button onclick="showDuaa()" style="background:#0F6E56;color:#fff;border:none;border-radius:12px;padding:4px 10px;font-family:Cairo,sans-serif;font-size:11px;cursor:pointer;">🤲 دعاء</button>
-    <span id="duaaTip" style="font-size:9px;color:#0F6E56;font-family:Cairo,sans-serif;white-space:nowrap;">اضغط هنا</span>
+<!-- Mobile overlay -->
+<div class="mob-overlay" id="mobOverlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-top">
+    <button class="new-chat-btn" onclick="newChat()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      محادثة جديدة
+    </button>
+  </div>
+  <div class="sidebar-chats" id="sidebarChats">
+    <div class="chat-section-title">اليوم</div>
+    <div class="chat-item active" id="currentChatItem">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+      محادثة جديدة
+    </div>
+  </div>
+  <div class="sidebar-bottom">
+    <button class="sidebar-btn" onclick="showSettings()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 0 0 12 2a10 10 0 0 0-7.07 2.93"/><path d="M4.93 19.07A10 10 0 0 0 12 22a10 10 0 0 0 7.07-2.93"/></svg>
+      الإعدادات
+    </button>
+    <div class="user-info" id="userInfo">
+      <div class="user-av" id="sidebarAv">ز</div>
+      <div>
+        <div class="user-name" id="sidebarName">زائر</div>
+        <div class="user-email" id="sidebarEmail">بدون تسجيل</div>
+      </div>
+    </div>
   </div>
 </div>
-<div id="duaaMsg" style="display:none;background:#E1F5EE;border-bottom:1px solid #c5e8d8;padding:10px 14px;font-family:Cairo,sans-serif;font-size:13px;color:#085041;line-height:1.8;text-align:right;direction:rtl;">
-  🤲 اللهم وفّق إبراهيم أحمد إبراهيم في ثانويته العامة، واجعله يحقق المجموع الذي يتمناه، وأعنه واشرح له صدره ويسّر له أمره يا أرحم الراحمين 🤍<br><br>
-  <button onclick="hideDuaa()" style="background:#0F6E56;color:#fff;border:none;border-radius:20px;padding:6px 20px;font-family:Cairo,sans-serif;font-size:13px;cursor:pointer;">آمين 🤍</button>
-</div>
-  
 
-  <!-- AUTH SCREEN -->
-  <div class="auth-screen" id="authScreen">
-    <div class="auth-title" id="authTitle">أهلاً بك 🤍</div>
-    <div class="auth-sub" id="authSub">سجل دخولك للمتابعة</div>
+<!-- MAIN -->
+<div class="main">
 
-    <div class="profile-fields" id="registerFields" style="display:none;">
+  <!-- AUTH OVERLAY -->
+  <div class="auth-overlay" id="authOverlay">
+    <div class="auth-box">
       <div>
-        <div class="profile-label">الاسم</div>
-        <input class="auth-inp" id="regName" type="text" placeholder="اسمك الكريم" />
+        <div class="auth-logo">🕌</div>
+        <div class="auth-title" id="authTitle">Your Muslim Bro</div>
+        <div class="auth-sub" id="authSub">سجل دخولك أو تابع كزائر</div>
       </div>
-      <div>
-        <div class="profile-label">العمر</div>
-        <input class="auth-inp" id="regAge" type="number" placeholder="عمرك" min="10" max="100" />
+      <div class="reg-fields" id="regFields">
+        <div>
+          <div class="field-label">الاسم</div>
+          <input class="auth-inp" id="regName" type="text" placeholder="اسمك الكريم" />
+        </div>
+        <div>
+          <div class="field-label">العمر</div>
+          <input class="auth-inp" id="regAge" type="number" placeholder="عمرك" min="10" max="100" />
+        </div>
+        <div>
+          <div class="field-label">الجنس</div>
+          <select class="auth-inp" id="regGender">
+            <option value="">اختر...</option>
+            <option value="ذكر">ذكر</option>
+            <option value="أنثى">أنثى</option>
+          </select>
+        </div>
       </div>
-      <div>
-        <div class="profile-label">الجنس</div>
-        <select class="auth-inp" id="regGender">
-          <option value="">اختر...</option>
-          <option value="ذكر">ذكر</option>
-          <option value="أنثى">أنثى</option>
-        </select>
-      </div>
+      <input class="auth-inp" id="authEmail" type="email" placeholder="البريد الإلكتروني" />
+      <input class="auth-inp" id="authPass" type="password" placeholder="كلمة المرور (6 أحرف على الأقل)" />
+      <div class="auth-error" id="authError"></div>
+      <button class="auth-btn" id="authBtn" onclick="handleAuth()">دخول</button>
+      <div class="auth-divider">أو</div>
+      <button class="auth-guest" onclick="enterAsGuest()">متابعة بدون تسجيل</button>
+      <div class="auth-toggle">مش عندك حساب؟ <span id="authToggle" onclick="toggleMode()">سجل دلوقتي</span></div>
     </div>
-
-    <input class="auth-inp" id="authEmail" type="email" placeholder="البريد الإلكتروني" />
-    <input class="auth-inp" id="authPass" type="password" placeholder="كلمة المرور" />
-    <div class="auth-error" id="authError"></div>
-    <button class="auth-btn" id="authBtn" onclick="handleAuth()">دخول</button>
-    <button class="auth-btn" onclick="enterAsGuest()" style="background:#fff;color:#0F6E56;border:1px solid #0F6E56;margin-top:-6px;">متابعة بدون تسجيل</button>
-    <span class="auth-toggle" id="authToggle" onclick="toggleMode()">مش عندك حساب؟ سجل دلوقتي</span>
   </div>
 
-  <!-- CHAT SCREEN -->
-  <div class="chat-screen" id="chatScreen">
-    <div class="error-msg" id="errMsg"></div>
-    <div class="chat" id="chatArea">
-      <div class="ts">اليوم</div>
+  <!-- CHAT PAGE -->
+  <div style="display:flex;flex-direction:column;height:100%;overflow:hidden;" id="chatPage">
+    <!-- Header -->
+    <div class="chat-header">
+      <button class="mob-menu back-btn" onclick="openSidebar()" style="background:var(--hover);">☰</button>
+      <div class="chat-header-title">Your Muslim Bro 🤍</div>
+      <div style="font-size:11px;color:var(--sub);">بِسْمِ اللَّهِ</div>
     </div>
-    <div class="sugs" id="sugs">
-      <div class="chip" onclick="sendSug('عندي وسواس في الصلاة')">وسواس في الصلاة</div>
-      <div class="chip" onclick="sendSug('أشعر بالذنب وأريد التوبة')">أريد التوبة</div>
-      <div class="chip" onclick="sendSug('أنا حزين ومضغوط')">أنا مضغوط</div>
-      <div class="chip" onclick="sendSug('سؤال عن حكم شرعي')">سؤال شرعي</div>
-      <div class="chip duaa-chip" onclick="sendDuaa()">🤲 ادعو لإبراهيم</div>
+
+    <!-- Duaa banner -->
+    <div class="duaa-banner" id="duaaBanner">
+      <div class="duaa-trigger">
+        <div class="duaa-tip" id="duaaTip">👆 اضغط هنا</div>
+        <button class="duaa-btn" onclick="showDuaa()">🤲 دعاء</button>
+      </div>
     </div>
-    <div class="inp-area">
-      <button class="sbtn" onclick="handleSend()">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#E1F5EE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="22" y1="2" x2="11" y2="13"></line>
-          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-        </svg>
-      </button>
-      <textarea class="tinp" id="userInput" placeholder="اكتب سؤالك أو ما يشغل بالك..." rows="1"
-        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();handleSend();}"></textarea>
+    <div class="duaa-msg" id="duaaMsg">
+      🤲 اللهم وفّق إبراهيم أحمد إبراهيم في ثانويته العامة، واجعله يحقق المجموع الذي يتمناه، وأعنه واشرح له صدره ويسّر له أمره يا أرحم الراحمين 🤍
+      <br><br>
+      <button class="ameen-btn" onclick="hideDuaa()">آمين 🤍</button>
     </div>
-    <div class="disc">ليس بديلًا عن العلماء أو الأطباء المتخصصين</div>
+
+    <!-- Error -->
+    <div class="err-bar" id="errBar"></div>
+
+    <!-- Chat / Welcome -->
+    <div class="chat-area" id="chatArea">
+      <!-- Welcome screen -->
+      <div class="welcome" id="welcomeScreen">
+        <div class="welcome-logo">🕌</div>
+        <div class="welcome-title">Your Muslim Bro</div>
+        <div class="welcome-sub">رفيقك الديني والنفسي — أسألني عن أي شيء يشغل بالك</div>
+        <div class="welcome-ayah">
+          أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ
+          <div class="welcome-ayah-src">📖 سورة الرعد · آية 28</div>
+        </div>
+        <div class="sugs-grid">
+          <div class="sug-card" onclick="sendSug('عندي وسواس في الصلاة')">
+            <div class="sug-icon">🧠</div>
+            <div class="sug-title">وسواس في الصلاة</div>
+            <div class="sug-sub">كيف أتعامل معه؟</div>
+          </div>
+          <div class="sug-card" onclick="sendSug('أشعر بالذنب وأريد التوبة')">
+            <div class="sug-icon">💚</div>
+            <div class="sug-title">أريد التوبة</div>
+            <div class="sug-sub">باب التوبة مفتوح دائماً</div>
+          </div>
+          <div class="sug-card" onclick="sendSug('أنا حزين ومضغوط نفسياً')">
+            <div class="sug-icon">🌧️</div>
+            <div class="sug-title">أنا مضغوط</div>
+            <div class="sug-sub">تكلم عما يؤلمك</div>
+          </div>
+          <div class="sug-card" onclick="sendSug('سؤال عن حكم شرعي')">
+            <div class="sug-icon">📖</div>
+            <div class="sug-title">سؤال شرعي</div>
+            <div class="sug-sub">بمصادر موثوقة</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div class="input-area">
+      <div class="input-box">
+        <button class="send-btn" onclick="handleSend()" id="sendBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+        <textarea class="tinp" id="userInput" placeholder="اكتب سؤالك أو ما يشغل بالك..." rows="1"
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();handleSend();}"></textarea>
+      </div>
+      <div class="input-disc">ليس بديلًا عن العلماء أو الأطباء المتخصصين</div>
+    </div>
   </div>
+
+  <!-- SETTINGS PAGE -->
+  <div class="settings-page" id="settingsPage">
+    <div class="settings-header">
+      <button class="back-btn" onclick="hideSettings()">→</button>
+      <div style="font-size:15px;font-weight:600;color:var(--text);">الإعدادات</div>
+    </div>
+    <div class="settings-content">
+
+      <!-- Profile -->
+      <div class="s-card" style="background:var(--primary);border:none;padding:16px;">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div class="user-av" style="width:48px;height:48px;font-size:18px;" id="settingsAv">ز</div>
+          <div>
+            <div style="font-size:15px;font-weight:600;color:#fff;" id="settingsName">زائر</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.7);" id="settingsEmail">بدون تسجيل</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="s-section-title">المظهر</div>
+      <div class="s-card">
+        <div class="s-item" style="cursor:default;">
+          <div class="s-item-r">
+            <div class="s-icon">🌙</div>
+            <div>
+              <div class="s-label">الوضع الليلي</div>
+              <div class="s-sub">Dark Mode</div>
+            </div>
+          </div>
+          <button class="toggle" id="darkToggle" onclick="toggleDark()"></button>
+        </div>
+        <div style="padding:4px 16px 14px;border-top:1px solid var(--border);">
+          <div style="font-size:11px;color:var(--sub);margin-bottom:10px;margin-top:8px;">اللون الرئيسي</div>
+          <div class="color-row" style="padding:0;">
+            <div class="color-dot" style="background:#10a37f;" onclick="setColor('#10a37f','#0d8c6d')" id="c0"></div>
+            <div class="color-dot" style="background:#1a6fa3;" onclick="setColor('#1a6fa3','#155d8a')" id="c1"></div>
+            <div class="color-dot" style="background:#7c3aed;" onclick="setColor('#7c3aed','#6d2fd4')" id="c2"></div>
+            <div class="color-dot" style="background:#b45309;" onclick="setColor('#b45309','#9a4708')" id="c3"></div>
+            <div class="color-dot" style="background:#be185d;" onclick="setColor('#be185d','#a3154f')" id="c4"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="s-section-title">عن التطبيق</div>
+      <div class="s-card">
+        <div class="s-item">
+          <div class="s-item-r">
+            <div class="s-icon">📖</div>
+            <div><div class="s-label">Your Muslim Bro</div></div>
+          </div>
+          <span style="font-size:11px;color:var(--sub);">v2.0</span>
+        </div>
+        <div class="s-item" style="cursor:default;">
+          <div class="s-item-r">
+            <div class="s-icon">🤍</div>
+            <div><div class="s-label">بُني بحب للأمة الإسلامية</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="logout-card" onclick="doLogout()">
+        <span style="font-size:20px;">🚪</span>
+        <span>تسجيل الخروج</span>
+      </div>
+
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -358,26 +873,33 @@ let history = [];
 let busy = false;
 let currentUser = null;
 let userProfile = null;
+let chatStarted = false;
 
+// Load theme
+const isDark = localStorage.getItem('darkMode') === 'true';
+if (isDark) { document.body.classList.add('dark'); document.getElementById('darkToggle').classList.add('on'); }
+const savedColor = localStorage.getItem('primaryColor');
+const savedDark = localStorage.getItem('primaryDark');
+if (savedColor) {
+  document.documentElement.style.setProperty('--primary', savedColor);
+  document.documentElement.style.setProperty('--primary-dark', savedDark || savedColor);
+}
+
+// Auth
 async function supaFetch(path, method='GET', body=null, token=null) {
-  const headers = {
-    'Content-Type': 'application/json',
-    'apikey': SUPABASE_ANON_KEY,
-    'Authorization': `Bearer ${token || SUPABASE_ANON_KEY}`
-  };
+  const headers = { 'Content-Type': 'application/json', 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${token || SUPABASE_ANON_KEY}` };
   const opts = { method, headers };
   if (body) opts.body = JSON.stringify(body);
-  const res = await fetch(SUPABASE_URL + path, opts);
-  return res;
+  return fetch(SUPABASE_URL + path, opts);
 }
 
 function toggleMode() {
   isLogin = !isLogin;
-  document.getElementById('authTitle').textContent = isLogin ? 'أهلاً بك 🤍' : 'حساب جديد 🌿';
-  document.getElementById('authSub').textContent = isLogin ? 'سجل دخولك للمتابعة' : 'أنشئ حسابك الآن';
+  document.getElementById('authTitle').textContent = isLogin ? 'Your Muslim Bro' : 'حساب جديد 🌿';
+  document.getElementById('authSub').textContent = isLogin ? 'سجل دخولك أو تابع كزائر' : 'أنشئ حسابك الآن';
   document.getElementById('authBtn').textContent = isLogin ? 'دخول' : 'إنشاء حساب';
-  document.getElementById('authToggle').textContent = isLogin ? 'مش عندك حساب؟ سجل دلوقتي' : 'عندك حساب؟ سجل دخول';
-  document.getElementById('registerFields').style.display = isLogin ? 'none' : 'flex';
+  document.getElementById('authToggle').textContent = isLogin ? 'سجل دلوقتي' : 'سجل دخول';
+  document.getElementById('regFields').style.display = isLogin ? 'none' : 'flex';
   document.getElementById('authError').style.display = 'none';
 }
 
@@ -386,16 +908,15 @@ async function handleAuth() {
   const pass = document.getElementById('authPass').value.trim();
   const errEl = document.getElementById('authError');
   errEl.style.display = 'none';
-
-  if (!email || !pass) { errEl.textContent = 'من فضلك أدخل الإيميل وكلمة المرور'; errEl.style.display = 'block'; return; }
-
+  if (!email || !pass) { errEl.textContent = 'أدخل الإيميل وكلمة المرور'; errEl.style.display = 'block'; return; }
+  if (pass.length < 6) { errEl.textContent = 'كلمة المرور 6 أحرف على الأقل'; errEl.style.display = 'block'; return; }
   document.getElementById('authBtn').textContent = '...جاري';
 
   if (isLogin) {
     const res = await supaFetch('/auth/v1/token?grant_type=password', 'POST', { email, password: pass });
     const data = await res.json();
-    if (data.error || data.error_code || !data.access_token) {
-      errEl.textContent = 'الإيميل أو كلمة المرور غلط، أو الحساب مش موجود';
+    if (!data.access_token) {
+      errEl.textContent = 'الإيميل أو كلمة المرور غلط';
       errEl.style.display = 'block';
       document.getElementById('authBtn').textContent = 'دخول';
       return;
@@ -407,19 +928,20 @@ async function handleAuth() {
     const name = document.getElementById('regName').value.trim();
     const age = document.getElementById('regAge').value.trim();
     const gender = document.getElementById('regGender').value;
-    if (!name || !age || !gender) { errEl.textContent = 'من فضلك أكمل كل البيانات'; errEl.style.display = 'block'; document.getElementById('authBtn').textContent = 'إنشاء حساب'; return; }
-
+    if (!name || !age || !gender) { errEl.textContent = 'أكمل كل البيانات'; errEl.style.display = 'block'; document.getElementById('authBtn').textContent = 'إنشاء حساب'; return; }
     const res = await supaFetch('/auth/v1/signup', 'POST', { email, password: pass });
     const data = await res.json();
-    if (data.error || data.error_code) {
+    if (!data.user && !data.access_token) {
       errEl.textContent = 'حدث خطأ، جرب إيميل تاني';
       errEl.style.display = 'block';
       document.getElementById('authBtn').textContent = 'إنشاء حساب';
       return;
     }
     currentUser = data;
-    await supaFetch('/rest/v1/users', 'POST', { id: data.user?.id, email, name, age: parseInt(age), gender }, data.access_token);
-    userProfile = { name, age, gender };
+    if (data.access_token) {
+      await supaFetch('/rest/v1/users', 'POST', { id: data.user?.id, email, name, age: parseInt(age), gender }, data.access_token);
+    }
+    userProfile = { name, age, gender, email };
     enterChat();
   }
 }
@@ -428,99 +950,94 @@ async function loadProfile() {
   if (!currentUser?.user?.id) return;
   const res = await supaFetch(`/rest/v1/users?id=eq.${currentUser.user.id}&select=*`, 'GET', null, currentUser.access_token);
   const data = await res.json();
-  if (data && data[0]) userProfile = data[0];
+  if (data?.[0]) userProfile = data[0];
 }
 
 function enterChat() {
-  document.getElementById('authScreen').style.display = 'none';
-  document.getElementById('chatScreen').style.display = 'flex';
-  document.getElementById('logoutBtn').style.display = 'block';
+  document.getElementById('authOverlay').style.display = 'none';
+  updateSidebar();
   const name = userProfile?.name || 'أخي';
-  document.getElementById('statusTxt').textContent = `أهلاً ${name} · جاهز للمساعدة`;
-  addMsg(`أهلاً ${name}! 🌿 أنا هنا أسمعك وأساعدك — سواء كان عندك سؤال ديني أو تمر بضغط نفسي. كلامنا بمصادر موثوقة فقط 🤍`, false);
-}
-
-function showDuaa() {
-  const tip = document.getElementById("duaaTip");
-  if (tip) tip.style.display = "none";
-  document.getElementById("duaaMsg").style.display = "block";
-}
-
-function hideDuaa() {
-  document.getElementById("duaaMsg").style.display = "none";
+  setTimeout(() => {
+    addBotMsg(`أهلاً ${name}! 🌿 أنا هنا أسمعك وأساعدك — سواء كان عندك سؤال ديني أو تمر بضغط نفسي. كلامنا بمصادر موثوقة فقط 🤍`);
+  }, 300);
 }
 
 function enterAsGuest() {
-  userProfile = null;
-  currentUser = null;
-  document.getElementById("authScreen").style.display = "none";
-  document.getElementById("chatScreen").style.display = "flex";
-  document.getElementById("logoutBtn").style.display = "block";
-  document.getElementById("statusTxt").textContent = "جاهز للمساعدة";
-  addMsg("أهلاً بك! 🌿 أنا هنا أسمعك وأساعدك — سواء كان عندك سؤال ديني أو تمر بضغط نفسي 🤍", false);
+  document.getElementById('authOverlay').style.display = 'none';
+  updateSidebar();
 }
 
-function logout() {
-  currentUser = null;
-  userProfile = null;
-  history = [];
-  document.getElementById('chatArea').innerHTML = '<div class="ts">اليوم</div>';
-  document.getElementById('chatScreen').style.display = 'none';
-  document.getElementById('authScreen').style.display = 'flex';
-  document.getElementById('logoutBtn').style.display = 'none';
-  document.getElementById('statusTxt').textContent = 'سجل دخولك للبدء';
-  document.getElementById('authEmail').value = '';
-  document.getElementById('authPass').value = '';
-  document.getElementById('sugs').style.display = 'flex';
-  document.getElementById('authBtn').textContent = 'دخول';
+function updateSidebar() {
+  const name = userProfile?.name || 'زائر';
+  const email = userProfile?.email || currentUser?.user?.email || 'بدون تسجيل';
+  const av = name[0] || 'ز';
+  document.getElementById('sidebarAv').textContent = av;
+  document.getElementById('sidebarName').textContent = name;
+  document.getElementById('sidebarEmail').textContent = email;
+  document.getElementById('settingsAv').textContent = av;
+  document.getElementById('settingsName').textContent = name;
+  document.getElementById('settingsEmail').textContent = email;
 }
 
-function showError(msg) { const el = document.getElementById('errMsg'); el.textContent = msg; el.style.display = 'block'; }
-function hideError() { document.getElementById('errMsg').style.display = 'none'; }
-
-function addMsg(text, isUser) {
+// Chat
+function addBotMsg(text) {
+  document.getElementById('welcomeScreen')?.remove();
   const area = document.getElementById('chatArea');
-  const row = document.createElement('div');
-  row.className = 'row' + (isUser ? ' u' : '');
-  const av = document.createElement('div');
-  av.className = 'mav ' + (isUser ? 'u' : 'b');
-  av.textContent = isUser ? 'أنت' : 'أخ';
-  const bub = document.createElement('div');
-  bub.className = 'bub ' + (isUser ? 'u' : 'b');
-  if (!isUser) {
-    bub.innerHTML = text
-      .replace(/\[آية:\s*([^\|]+)\|([^\]]+)\]/g, (_, v, s) => `<div class="ayah">${v.trim()}<div class="asrc">📖 ${s.trim()}</div></div>`)
-      .replace(/\[حديث:\s*([^\|]+)\|([^\]]+)\]/g, (_, h, s) => `<div class="ayah">${h.trim()}<div class="asrc">📚 ${s.trim()}</div></div>`)
-      .replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
-  } else { bub.textContent = text; }
-  row.appendChild(av); row.appendChild(bub);
-  area.appendChild(row);
-  area.scrollTop = area.scrollHeight;
+  const row = document.createElement('div'); row.className = 'msg-row';
+  const av = document.createElement('div'); av.className = 'msg-av bot'; av.textContent = 'أخ';
+  const content = document.createElement('div'); content.className = 'msg-content';
+  const name = document.createElement('div'); name.className = 'msg-name'; name.textContent = 'Your Muslim Bro';
+  const bub = document.createElement('div'); bub.className = 'bubble bot';
+  bub.innerHTML = text
+    .replace(/\[آية:\s*([^\|]+)\|([^\]]+)\]/g, (_, v, s) => `<div class="ayah-block">${v.trim()}<div class="ayah-src">📖 ${s.trim()}</div></div>`)
+    .replace(/\[حديث:\s*([^\|]+)\|([^\]]+)\]/g, (_, h, s) => `<div class="ayah-block">${h.trim()}<div class="ayah-src">📚 ${s.trim()}</div></div>`)
+    .replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
+  content.appendChild(name); content.appendChild(bub);
+  row.appendChild(av); row.appendChild(content);
+  area.appendChild(row); area.scrollTop = area.scrollHeight;
+  chatStarted = true;
+  const label = text.substring(0, 30) + '...';
+  document.getElementById('currentChatItem').textContent = label;
+}
+
+function addUserMsg(text) {
+  document.getElementById('welcomeScreen')?.remove();
+  const area = document.getElementById('chatArea');
+  const row = document.createElement('div'); row.className = 'msg-row user';
+  const av = document.createElement('div'); av.className = 'msg-av user'; av.textContent = 'أنت';
+  const content = document.createElement('div'); content.className = 'msg-content';
+  const name = document.createElement('div'); name.className = 'msg-name'; name.textContent = 'أنت';
+  const bub = document.createElement('div'); bub.className = 'bubble user'; bub.textContent = text;
+  content.appendChild(name); content.appendChild(bub);
+  row.appendChild(av); row.appendChild(content);
+  area.appendChild(row); area.scrollTop = area.scrollHeight;
 }
 
 function showTyping() {
   const area = document.getElementById('chatArea');
-  const row = document.createElement('div'); row.className = 'row'; row.id = 'trow';
-  const av = document.createElement('div'); av.className = 'mav b'; av.textContent = 'أخ';
-  const t = document.createElement('div'); t.className = 'typing';
-  t.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
-  row.appendChild(av); row.appendChild(t);
+  const row = document.createElement('div'); row.className = 'typing-row'; row.id = 'typingRow';
+  const av = document.createElement('div'); av.className = 'msg-av bot'; av.textContent = 'أخ';
+  const dots = document.createElement('div'); dots.className = 'typing-dots';
+  dots.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+  row.appendChild(av); row.appendChild(dots);
   area.appendChild(row); area.scrollTop = area.scrollHeight;
 }
-function removeTyping() { const t = document.getElementById('trow'); if (t) t.remove(); }
+function removeTyping() { document.getElementById('typingRow')?.remove(); }
+
+function showErr(msg) { const el = document.getElementById('errBar'); el.textContent = msg; el.style.display = 'block'; }
+function hideErr() { document.getElementById('errBar').style.display = 'none'; }
 
 async function callAPI(msg) {
-  const profileCtx = userProfile ? `[معلومات المستخدم: الاسم: ${userProfile.name}، العمر: ${userProfile.age}، الجنس: ${userProfile.gender}]` : '';
-  const fullMsg = profileCtx ? profileCtx + '\n' + msg : msg;
-  history.push({ role: 'user', content: fullMsg });
+  const profileCtx = userProfile ? `[معلومات المستخدم: الاسم: ${userProfile.name}، العمر: ${userProfile.age}، الجنس: ${userProfile.gender}] ` : '';
+  history.push({ role: 'user', content: profileCtx + msg });
   try {
     const res = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: history }) });
     const data = await res.json();
-    if (!res.ok || data.error) { showError('خطأ: ' + (data.error || 'حدث خطأ')); history.pop(); return null; }
-    hideError();
+    if (!res.ok || data.error) { showErr('خطأ: ' + (data.error || 'حدث خطأ')); history.pop(); return null; }
+    hideErr();
     history.push({ role: 'assistant', content: data.reply });
     return data.reply;
-  } catch (e) { showError('تعذّر الاتصال.'); history.pop(); return null; }
+  } catch (e) { showErr('تعذّر الاتصال.'); history.pop(); return null; }
 }
 
 async function handleSend() {
@@ -528,29 +1045,83 @@ async function handleSend() {
   const inp = document.getElementById('userInput');
   const msg = inp.value.trim();
   if (!msg) return;
-  document.getElementById('sugs').style.display = 'none';
-  hideError(); inp.value = ''; inp.style.height = 'auto';
-  addMsg(msg, true); busy = true; showTyping();
+  hideErr(); inp.value = ''; inp.style.height = 'auto';
+  addUserMsg(msg); busy = true;
+  document.getElementById('sendBtn').disabled = true;
+  showTyping();
   const reply = await callAPI(msg);
-  removeTyping(); if (reply) addMsg(reply, false); busy = false;
+  removeTyping();
+  if (reply) addBotMsg(reply);
+  busy = false;
+  document.getElementById('sendBtn').disabled = false;
 }
 
 function sendSug(t) { document.getElementById('userInput').value = t; handleSend(); }
 
-function sendDuaa() {
+function newChat() {
+  history = [];
   const area = document.getElementById('chatArea');
-  const row = document.createElement('div'); row.className = 'row';
-  const av = document.createElement('div'); av.className = 'mav b'; av.textContent = 'أخ';
-  const bub = document.createElement('div'); bub.className = 'bub b';
-  bub.innerHTML = `🤲 اللهم وفّق إبراهيم أحمد إبراهيم في ثانويته العامة، وأعنه واشرح له صدره، ويسّر له أمره، واجعل ما تعلّمه نوراً يضيء طريقه 🤍<br><br><span style="color:#1D9E75;font-size:12px;">آمين يا رب العالمين 🌿</span>`;
-  row.appendChild(av); row.appendChild(bub);
-  area.appendChild(row); area.scrollTop = area.scrollHeight;
-  document.getElementById('sugs').style.display = 'none';
+  area.innerHTML = '';
+  const welcome = document.createElement('div');
+  welcome.className = 'welcome'; welcome.id = 'welcomeScreen';
+  welcome.innerHTML = `<div class="welcome-logo">🕌</div><div class="welcome-title">Your Muslim Bro</div><div class="welcome-sub">رفيقك الديني والنفسي — أسألني عن أي شيء يشغل بالك</div><div class="welcome-ayah">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ<div class="welcome-ayah-src">📖 سورة الرعد · آية 28</div></div><div class="sugs-grid"><div class="sug-card" onclick="sendSug('عندي وسواس في الصلاة')"><div class="sug-icon">🧠</div><div class="sug-title">وسواس في الصلاة</div><div class="sug-sub">كيف أتعامل معه؟</div></div><div class="sug-card" onclick="sendSug('أشعر بالذنب وأريد التوبة')"><div class="sug-icon">💚</div><div class="sug-title">أريد التوبة</div><div class="sug-sub">باب التوبة مفتوح دائماً</div></div><div class="sug-card" onclick="sendSug('أنا حزين ومضغوط نفسياً')"><div class="sug-icon">🌧️</div><div class="sug-title">أنا مضغوط</div><div class="sug-sub">تكلم عما يؤلمك</div></div><div class="sug-card" onclick="sendSug('سؤال عن حكم شرعي')"><div class="sug-icon">📖</div><div class="sug-title">سؤال شرعي</div><div class="sug-sub">بمصادر موثوقة</div></div></div>`;
+  area.appendChild(welcome);
+  document.getElementById('currentChatItem').textContent = 'محادثة جديدة';
+  closeSidebar();
 }
 
+// Duaa
+function showDuaa() {
+  document.getElementById('duaaTip').style.display = 'none';
+  document.getElementById('duaaMsg').style.display = 'block';
+}
+function hideDuaa() { document.getElementById('duaaMsg').style.display = 'none'; }
+
+// Settings
+function showSettings() {
+  document.getElementById('chatPage').style.display = 'none';
+  document.getElementById('settingsPage').style.display = 'flex';
+  closeSidebar();
+}
+function hideSettings() {
+  document.getElementById('settingsPage').style.display = 'none';
+  document.getElementById('chatPage').style.display = 'flex';
+}
+
+// Theme
+function toggleDark() {
+  document.body.classList.toggle('dark');
+  const on = document.body.classList.contains('dark');
+  document.getElementById('darkToggle').classList.toggle('on', on);
+  localStorage.setItem('darkMode', on);
+}
+function setColor(c, d) {
+  document.documentElement.style.setProperty('--primary', c);
+  document.documentElement.style.setProperty('--primary-dark', d || c);
+  localStorage.setItem('primaryColor', c);
+  localStorage.setItem('primaryDark', d || c);
+  document.querySelectorAll('.color-dot').forEach(el => el.classList.remove('active'));
+}
+
+// Logout
+function doLogout() {
+  currentUser = null; userProfile = null; history = [];
+  document.getElementById('authOverlay').style.display = 'flex';
+  document.getElementById('authEmail').value = '';
+  document.getElementById('authPass').value = '';
+  document.getElementById('authBtn').textContent = 'دخول';
+  hideSettings();
+  newChat();
+}
+
+// Mobile sidebar
+function openSidebar() { document.getElementById('sidebar').classList.add('open'); document.getElementById('mobOverlay').classList.add('show'); }
+function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('mobOverlay').classList.remove('show'); }
+
+// Textarea auto-resize
 document.getElementById('userInput').addEventListener('input', function() {
   this.style.height = 'auto';
-  this.style.height = Math.min(this.scrollHeight, 90) + 'px';
+  this.style.height = Math.min(this.scrollHeight, 120) + 'px';
 });
 </script>
 </body>
