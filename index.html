@@ -8,7 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
     font-family: 'Cairo', sans-serif;
     background: #f0f4f2;
@@ -18,7 +17,6 @@
     min-height: 100vh;
     padding: 10px;
   }
-
   .phone {
     width: 390px;
     max-width: 100%;
@@ -31,7 +29,6 @@
     height: 92vh;
     max-height: 820px;
   }
-
   .header {
     background: #fff;
     border-bottom: 1px solid #e0ede8;
@@ -40,7 +37,6 @@
     align-items: center;
     gap: 10px;
   }
-
   .av {
     width: 40px; height: 40px;
     border-radius: 50%;
@@ -50,10 +46,8 @@
     border: 2px solid #5DCAA5;
     flex-shrink: 0;
   }
-
   .hname { font-size: 15px; font-weight: 600; color: #1a1a1a; }
   .hstatus { font-size: 11px; color: #1D9E75; margin-top: 1px; }
-
   .ornament {
     font-family: 'Amiri', serif;
     font-size: 13px;
@@ -62,9 +56,70 @@
     padding: 9px 0 5px;
     background: #fff;
     border-bottom: 1px solid #e0ede8;
-    letter-spacing: 0.5px;
   }
 
+  /* AUTH SCREEN */
+  .auth-screen {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 20px;
+    gap: 14px;
+  }
+  .auth-title { font-size: 16px; font-weight: 600; color: #085041; }
+  .auth-sub { font-size: 12px; color: #888; text-align: center; }
+  .auth-inp {
+    width: 100%;
+    border: 1px solid #c5e8d8;
+    border-radius: 12px;
+    padding: 11px 14px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px;
+    outline: none;
+    background: #fff;
+    direction: rtl;
+    color: #1a1a1a;
+  }
+  .auth-inp:focus { border-color: #1D9E75; }
+  .auth-btn {
+    width: 100%;
+    background: #0F6E56;
+    color: #E1F5EE;
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .auth-btn:hover { background: #1D9E75; }
+  .auth-toggle {
+    font-size: 12px;
+    color: #1D9E75;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  .auth-error {
+    font-size: 12px;
+    color: #a33;
+    background: #fff3f3;
+    border: 1px solid #f0b0b0;
+    border-radius: 8px;
+    padding: 8px 12px;
+    width: 100%;
+    text-align: center;
+    display: none;
+  }
+  .profile-fields { width: 100%; display: flex; flex-direction: column; gap: 10px; }
+  .profile-label { font-size: 12px; color: #085041; margin-bottom: 2px; }
+  select.auth-inp { cursor: pointer; }
+
+  /* CHAT SCREEN */
+  .chat-screen { flex: 1; display: none; flex-direction: column; overflow: hidden; }
   .chat {
     flex: 1;
     overflow-y: auto;
@@ -74,17 +129,9 @@
     gap: 9px;
     scroll-behavior: smooth;
   }
-
-  .ts {
-    font-size: 10px;
-    color: #999;
-    text-align: center;
-    padding: 2px 0;
-  }
-
+  .ts { font-size: 10px; color: #999; text-align: center; padding: 2px 0; }
   .row { display: flex; align-items: flex-end; gap: 7px; }
   .row.u { flex-direction: row-reverse; }
-
   .mav {
     width: 28px; height: 28px;
     border-radius: 50%;
@@ -94,7 +141,6 @@
   }
   .mav.b { background: #E1F5EE; color: #0F6E56; border: 1px solid #9FE1CB; }
   .mav.u { background: #EEEDFE; color: #534AB7; border: 1px solid #CECBF6; }
-
   .bub {
     max-width: 78%;
     padding: 10px 13px;
@@ -102,18 +148,8 @@
     line-height: 1.75;
     border-radius: 16px;
   }
-  .bub.b {
-    background: #fff;
-    border: 1px solid #ddeee8;
-    border-bottom-right-radius: 4px;
-    color: #1a1a1a;
-  }
-  .bub.u {
-    background: #0F6E56;
-    color: #E1F5EE;
-    border-bottom-left-radius: 4px;
-  }
-
+  .bub.b { background: #fff; border: 1px solid #ddeee8; border-bottom-right-radius: 4px; color: #1a1a1a; }
+  .bub.u { background: #0F6E56; color: #E1F5EE; border-bottom-left-radius: 4px; }
   .ayah {
     margin-top: 8px;
     padding: 8px 10px;
@@ -124,13 +160,7 @@
     color: #085041;
     line-height: 2;
   }
-  .asrc {
-    font-size: 10.5px;
-    color: #0F6E56;
-    margin-top: 3px;
-    font-family: 'Cairo', sans-serif;
-  }
-
+  .asrc { font-size: 10.5px; color: #0F6E56; margin-top: 3px; font-family: 'Cairo', sans-serif; }
   .typing {
     display: flex; align-items: center; gap: 4px;
     padding: 10px 13px;
@@ -140,20 +170,13 @@
     border-bottom-right-radius: 4px;
     width: fit-content;
   }
-  .dot {
-    width: 6px; height: 6px;
-    background: #1D9E75;
-    border-radius: 50%;
-    animation: blink 1.2s infinite;
-    opacity: 0.6;
-  }
+  .dot { width: 6px; height: 6px; background: #1D9E75; border-radius: 50%; animation: blink 1.2s infinite; opacity: 0.6; }
   .dot:nth-child(2) { animation-delay: .2s; }
   .dot:nth-child(3) { animation-delay: .4s; }
   @keyframes blink {
     0%,80%,100% { transform: translateY(0); }
     40% { transform: translateY(-5px); opacity: 1; }
   }
-
   .sugs {
     padding: 6px 13px 7px;
     display: flex;
@@ -175,7 +198,8 @@
     transition: background .15s;
   }
   .chip:hover { background: #E1F5EE; }
-
+  .duaa-chip { background: #E1F5EE; border-color: #1D9E75; color: #085041; font-weight: 600; }
+  .duaa-chip:hover { background: #c5f0e0; }
   .inp-area {
     background: #fff;
     border-top: 1px solid #e0ede8;
@@ -184,7 +208,6 @@
     gap: 8px;
     align-items: flex-end;
   }
-
   .tinp {
     flex: 1;
     border: 1px solid #c5e8d8;
@@ -203,7 +226,6 @@
   }
   .tinp:focus { border-color: #1D9E75; background: #fff; }
   .tinp::placeholder { color: #aaa; }
-
   .sbtn {
     width: 40px; height: 40px;
     border-radius: 50%;
@@ -216,15 +238,7 @@
   }
   .sbtn:hover { background: #1D9E75; }
   .sbtn:active { transform: scale(0.94); }
-
-  .disc {
-    font-size: 10px;
-    color: #aaa;
-    text-align: center;
-    padding: 4px 16px 10px;
-    background: #fff;
-  }
-
+  .disc { font-size: 10px; color: #aaa; text-align: center; padding: 4px 16px 10px; background: #fff; }
   .error-msg {
     background: #fff3f3;
     border: 1px solid #f0b0b0;
@@ -235,6 +249,16 @@
     margin: 6px 13px;
     display: none;
   }
+  .logout-btn {
+    background: none;
+    border: none;
+    font-size: 11px;
+    color: #aaa;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    padding: 2px 6px;
+  }
+  .logout-btn:hover { color: #a33; }
 </style>
 </head>
 <body>
@@ -243,143 +267,234 @@
     <div class="av">أخ</div>
     <div style="flex:1;">
       <div class="hname">your Muslim bro 🤍</div>
-      <div class="hstatus" id="statusTxt">جاهز للمساعدة</div>
+      <div class="hstatus" id="statusTxt">سجل دخولك للبدء</div>
     </div>
+    <button class="logout-btn" id="logoutBtn" onclick="logout()" style="display:none;">خروج</button>
   </div>
 
   <div class="ornament">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
 
-  <div class="error-msg" id="errMsg"></div>
+  <!-- AUTH SCREEN -->
+  <div class="auth-screen" id="authScreen">
+    <div class="auth-title" id="authTitle">أهلاً بك 🤍</div>
+    <div class="auth-sub" id="authSub">سجل دخولك للمتابعة</div>
 
-  <div class="chat" id="chatArea">
-    <div class="ts">اليوم</div>
-    <div class="row">
-      <div class="mav b">أخ</div>
-      <div class="bub b">
-        السلام عليكم ورحمة الله 🌿<br><br>
-        أنا هنا أسمعك وأساعدك — سواء كان عندك سؤال ديني، أو تمر بضغط نفسي، أو عندك شيء في قلبك تبغى تتكلم عنه.<br><br>
-        كلامنا هنا بمصادر موثوقة فقط من القرآن والسنة الصحيحة 🤍
-        <div class="ayah">
-          أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ
-          <div class="asrc">📖 سورة الرعد · آية 28</div>
-        </div>
+    <div class="profile-fields" id="registerFields" style="display:none;">
+      <div>
+        <div class="profile-label">الاسم</div>
+        <input class="auth-inp" id="regName" type="text" placeholder="اسمك الكريم" />
+      </div>
+      <div>
+        <div class="profile-label">العمر</div>
+        <input class="auth-inp" id="regAge" type="number" placeholder="عمرك" min="10" max="100" />
+      </div>
+      <div>
+        <div class="profile-label">الجنس</div>
+        <select class="auth-inp" id="regGender">
+          <option value="">اختر...</option>
+          <option value="ذكر">ذكر</option>
+          <option value="أنثى">أنثى</option>
+        </select>
       </div>
     </div>
+
+    <input class="auth-inp" id="authEmail" type="email" placeholder="البريد الإلكتروني" />
+    <input class="auth-inp" id="authPass" type="password" placeholder="كلمة المرور" />
+    <div class="auth-error" id="authError"></div>
+    <button class="auth-btn" id="authBtn" onclick="handleAuth()">دخول</button>
+    <button class="auth-btn" onclick="enterAsGuest()" style="background:#fff;color:#0F6E56;border:1px solid #0F6E56;margin-top:-6px;">متابعة بدون تسجيل</button>
+    <span class="auth-toggle" id="authToggle" onclick="toggleMode()">مش عندك حساب؟ سجل دلوقتي</span>
   </div>
 
-  <div class="sugs" id="sugs">
-    <div class="chip" onclick="sendSug('عندي وسواس في الصلاة')">وسواس في الصلاة</div>
-    <div class="chip" onclick="sendSug('أشعر بالذنب وأريد التوبة')">أريد التوبة</div>
-    <div class="chip" onclick="sendSug('أنا حزين ومضغوط')">أنا مضغوط</div>
-    <div class="chip" onclick="sendSug('سؤال عن حكم شرعي')">سؤال شرعي</div>
+  <!-- CHAT SCREEN -->
+  <div class="chat-screen" id="chatScreen">
+    <div class="error-msg" id="errMsg"></div>
+    <div class="chat" id="chatArea">
+      <div class="ts">اليوم</div>
+    </div>
+    <div class="sugs" id="sugs">
+      <div class="chip" onclick="sendSug('عندي وسواس في الصلاة')">وسواس في الصلاة</div>
+      <div class="chip" onclick="sendSug('أشعر بالذنب وأريد التوبة')">أريد التوبة</div>
+      <div class="chip" onclick="sendSug('أنا حزين ومضغوط')">أنا مضغوط</div>
+      <div class="chip" onclick="sendSug('سؤال عن حكم شرعي')">سؤال شرعي</div>
+      <div class="chip duaa-chip" onclick="sendDuaa()">🤲 ادعو لإبراهيم</div>
+    </div>
+    <div class="inp-area">
+      <button class="sbtn" onclick="handleSend()">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#E1F5EE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+      <textarea class="tinp" id="userInput" placeholder="اكتب سؤالك أو ما يشغل بالك..." rows="1"
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();handleSend();}"></textarea>
+    </div>
+    <div class="disc">ليس بديلًا عن العلماء أو الأطباء المتخصصين</div>
   </div>
-
-  <div class="inp-area">
-    <button class="sbtn" onclick="handleSend()">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#E1F5EE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="22" y1="2" x2="11" y2="13"></line>
-        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-      </svg>
-    </button>
-    <textarea class="tinp" id="userInput" placeholder="اكتب سؤالك أو ما يشغل بالك..." rows="1"
-      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();handleSend();}"></textarea>
-  </div>
-
-  <div class="disc">ليس بديلًا عن العلماء أو الأطباء المتخصصين</div>
 </div>
 
 <script>
+const SUPABASE_URL = 'https://dsutwfcbilaxrkdypwrz.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzdXR3ZmNiaWxheHJrZHlwd3J6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY0NTI3NDcsImV4cCI6MjA2MjAyODc0N30.8VFnTkFGZcYJRxExS9rrBSL9pGfn0tPcl8tBVWpvLDQ';
+
+let isLogin = true;
 let history = [];
 let busy = false;
+let currentUser = null;
+let userProfile = null;
 
-function showError(msg) {
-  const el = document.getElementById('errMsg');
-  el.textContent = msg;
-  el.style.display = 'block';
+async function supaFetch(path, method='GET', body=null, token=null) {
+  const headers = {
+    'Content-Type': 'application/json',
+    'apikey': SUPABASE_ANON_KEY,
+    'Authorization': `Bearer ${token || SUPABASE_ANON_KEY}`
+  };
+  const opts = { method, headers };
+  if (body) opts.body = JSON.stringify(body);
+  const res = await fetch(SUPABASE_URL + path, opts);
+  return res;
 }
-function hideError() {
-  document.getElementById('errMsg').style.display = 'none';
+
+function toggleMode() {
+  isLogin = !isLogin;
+  document.getElementById('authTitle').textContent = isLogin ? 'أهلاً بك 🤍' : 'حساب جديد 🌿';
+  document.getElementById('authSub').textContent = isLogin ? 'سجل دخولك للمتابعة' : 'أنشئ حسابك الآن';
+  document.getElementById('authBtn').textContent = isLogin ? 'دخول' : 'إنشاء حساب';
+  document.getElementById('authToggle').textContent = isLogin ? 'مش عندك حساب؟ سجل دلوقتي' : 'عندك حساب؟ سجل دخول';
+  document.getElementById('registerFields').style.display = isLogin ? 'none' : 'flex';
+  document.getElementById('authError').style.display = 'none';
 }
+
+async function handleAuth() {
+  const email = document.getElementById('authEmail').value.trim();
+  const pass = document.getElementById('authPass').value.trim();
+  const errEl = document.getElementById('authError');
+  errEl.style.display = 'none';
+
+  if (!email || !pass) { errEl.textContent = 'من فضلك أدخل الإيميل وكلمة المرور'; errEl.style.display = 'block'; return; }
+
+  document.getElementById('authBtn').textContent = '...جاري';
+
+  if (isLogin) {
+    const res = await supaFetch('/auth/v1/token?grant_type=password', 'POST', { email, password: pass });
+    const data = await res.json();
+    if (data.error || data.error_code) {
+      errEl.textContent = 'الإيميل أو كلمة المرور غلط';
+      errEl.style.display = 'block';
+      document.getElementById('authBtn').textContent = 'دخول';
+      return;
+    }
+    currentUser = data;
+    await loadProfile();
+    enterChat();
+  } else {
+    const name = document.getElementById('regName').value.trim();
+    const age = document.getElementById('regAge').value.trim();
+    const gender = document.getElementById('regGender').value;
+    if (!name || !age || !gender) { errEl.textContent = 'من فضلك أكمل كل البيانات'; errEl.style.display = 'block'; document.getElementById('authBtn').textContent = 'إنشاء حساب'; return; }
+
+    const res = await supaFetch('/auth/v1/signup', 'POST', { email, password: pass });
+    const data = await res.json();
+    if (data.error || data.error_code) {
+      errEl.textContent = 'حدث خطأ، جرب إيميل تاني';
+      errEl.style.display = 'block';
+      document.getElementById('authBtn').textContent = 'إنشاء حساب';
+      return;
+    }
+    currentUser = data;
+    await supaFetch('/rest/v1/users', 'POST', { id: data.user?.id, email, name, age: parseInt(age), gender }, data.access_token);
+    userProfile = { name, age, gender };
+    enterChat();
+  }
+}
+
+async function loadProfile() {
+  if (!currentUser?.user?.id) return;
+  const res = await supaFetch(`/rest/v1/users?id=eq.${currentUser.user.id}&select=*`, 'GET', null, currentUser.access_token);
+  const data = await res.json();
+  if (data && data[0]) userProfile = data[0];
+}
+
+function enterChat() {
+  document.getElementById('authScreen').style.display = 'none';
+  document.getElementById('chatScreen').style.display = 'flex';
+  document.getElementById('logoutBtn').style.display = 'block';
+  const name = userProfile?.name || 'أخي';
+  document.getElementById('statusTxt').textContent = `أهلاً ${name} · جاهز للمساعدة`;
+  addMsg(`أهلاً ${name}! 🌿 أنا هنا أسمعك وأساعدك — سواء كان عندك سؤال ديني أو تمر بضغط نفسي. كلامنا بمصادر موثوقة فقط 🤍`, false);
+}
+
+function enterAsGuest() {
+  userProfile = null;
+  currentUser = null;
+  document.getElementById("authScreen").style.display = "none";
+  document.getElementById("chatScreen").style.display = "flex";
+  document.getElementById("logoutBtn").style.display = "block";
+  document.getElementById("statusTxt").textContent = "جاهز للمساعدة";
+  addMsg("أهلاً بك! 🌿 أنا هنا أسمعك وأساعدك — سواء كان عندك سؤال ديني أو تمر بضغط نفسي 🤍", false);
+}
+
+function logout() {
+  currentUser = null;
+  userProfile = null;
+  history = [];
+  document.getElementById('chatArea').innerHTML = '<div class="ts">اليوم</div>';
+  document.getElementById('chatScreen').style.display = 'none';
+  document.getElementById('authScreen').style.display = 'flex';
+  document.getElementById('logoutBtn').style.display = 'none';
+  document.getElementById('statusTxt').textContent = 'سجل دخولك للبدء';
+  document.getElementById('authEmail').value = '';
+  document.getElementById('authPass').value = '';
+  document.getElementById('sugs').style.display = 'flex';
+  document.getElementById('authBtn').textContent = 'دخول';
+}
+
+function showError(msg) { const el = document.getElementById('errMsg'); el.textContent = msg; el.style.display = 'block'; }
+function hideError() { document.getElementById('errMsg').style.display = 'none'; }
 
 function addMsg(text, isUser) {
   const area = document.getElementById('chatArea');
   const row = document.createElement('div');
   row.className = 'row' + (isUser ? ' u' : '');
-
   const av = document.createElement('div');
   av.className = 'mav ' + (isUser ? 'u' : 'b');
   av.textContent = isUser ? 'أنت' : 'أخ';
-
   const bub = document.createElement('div');
   bub.className = 'bub ' + (isUser ? 'u' : 'b');
-
   if (!isUser) {
     bub.innerHTML = text
-      .replace(/\[آية:\s*([^\|]+)\|([^\]]+)\]/g, (_, v, s) =>
-        `<div class="ayah">${v.trim()}<div class="asrc">📖 ${s.trim()}</div></div>`)
-      .replace(/\[حديث:\s*([^\|]+)\|([^\]]+)\]/g, (_, h, s) =>
-        `<div class="ayah">${h.trim()}<div class="asrc">📚 ${s.trim()}</div></div>`)
-      .replace(/\n\n/g, '<br><br>')
-      .replace(/\n/g, '<br>');
-  } else {
-    bub.textContent = text;
-  }
-
-  row.appendChild(av);
-  row.appendChild(bub);
+      .replace(/\[آية:\s*([^\|]+)\|([^\]]+)\]/g, (_, v, s) => `<div class="ayah">${v.trim()}<div class="asrc">📖 ${s.trim()}</div></div>`)
+      .replace(/\[حديث:\s*([^\|]+)\|([^\]]+)\]/g, (_, h, s) => `<div class="ayah">${h.trim()}<div class="asrc">📚 ${s.trim()}</div></div>`)
+      .replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
+  } else { bub.textContent = text; }
+  row.appendChild(av); row.appendChild(bub);
   area.appendChild(row);
   area.scrollTop = area.scrollHeight;
 }
 
 function showTyping() {
   const area = document.getElementById('chatArea');
-  const row = document.createElement('div');
-  row.className = 'row';
-  row.id = 'trow';
-  const av = document.createElement('div');
-  av.className = 'mav b';
-  av.textContent = 'أخ';
-  const t = document.createElement('div');
-  t.className = 'typing';
+  const row = document.createElement('div'); row.className = 'row'; row.id = 'trow';
+  const av = document.createElement('div'); av.className = 'mav b'; av.textContent = 'أخ';
+  const t = document.createElement('div'); t.className = 'typing';
   t.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
-  row.appendChild(av);
-  row.appendChild(t);
-  area.appendChild(row);
-  area.scrollTop = area.scrollHeight;
+  row.appendChild(av); row.appendChild(t);
+  area.appendChild(row); area.scrollTop = area.scrollHeight;
 }
-
-function removeTyping() {
-  const t = document.getElementById('trow');
-  if (t) t.remove();
-}
+function removeTyping() { const t = document.getElementById('trow'); if (t) t.remove(); }
 
 async function callAPI(msg) {
-  history.push({ role: 'user', content: msg });
+  const profileCtx = userProfile ? `[معلومات المستخدم: الاسم: ${userProfile.name}، العمر: ${userProfile.age}، الجنس: ${userProfile.gender}]` : '';
+  const fullMsg = profileCtx ? profileCtx + '\n' + msg : msg;
+  history.push({ role: 'user', content: fullMsg });
   try {
-    // Calls our secure backend — API key is never in the frontend
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages: history })
-    });
-
+    const res = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: history }) });
     const data = await res.json();
-
-    if (!res.ok || data.error) {
-      showError('خطأ: ' + (data.error || 'حدث خطأ غير متوقع'));
-      history.pop();
-      return null;
-    }
-
+    if (!res.ok || data.error) { showError('خطأ: ' + (data.error || 'حدث خطأ')); history.pop(); return null; }
     hideError();
-    const reply = data.reply;
-    history.push({ role: 'assistant', content: reply });
-    return reply;
-  } catch (e) {
-    showError('تعذّر الاتصال. تحقق من الإنترنت.');
-    history.pop();
-    return null;
-  }
+    history.push({ role: 'assistant', content: data.reply });
+    return data.reply;
+  } catch (e) { showError('تعذّر الاتصال.'); history.pop(); return null; }
 }
 
 async function handleSend() {
@@ -388,24 +503,26 @@ async function handleSend() {
   const msg = inp.value.trim();
   if (!msg) return;
   document.getElementById('sugs').style.display = 'none';
-  hideError();
-  inp.value = '';
-  inp.style.height = 'auto';
-  addMsg(msg, true);
-  busy = true;
-  showTyping();
+  hideError(); inp.value = ''; inp.style.height = 'auto';
+  addMsg(msg, true); busy = true; showTyping();
   const reply = await callAPI(msg);
-  removeTyping();
-  if (reply) addMsg(reply, false);
-  busy = false;
+  removeTyping(); if (reply) addMsg(reply, false); busy = false;
 }
 
-function sendSug(t) {
-  document.getElementById('userInput').value = t;
-  handleSend();
+function sendSug(t) { document.getElementById('userInput').value = t; handleSend(); }
+
+function sendDuaa() {
+  const area = document.getElementById('chatArea');
+  const row = document.createElement('div'); row.className = 'row';
+  const av = document.createElement('div'); av.className = 'mav b'; av.textContent = 'أخ';
+  const bub = document.createElement('div'); bub.className = 'bub b';
+  bub.innerHTML = `🤲 اللهم وفّق إبراهيم أحمد إبراهيم في ثانويته العامة، وأعنه واشرح له صدره، ويسّر له أمره، واجعل ما تعلّمه نوراً يضيء طريقه 🤍<br><br><span style="color:#1D9E75;font-size:12px;">آمين يا رب العالمين 🌿</span>`;
+  row.appendChild(av); row.appendChild(bub);
+  area.appendChild(row); area.scrollTop = area.scrollHeight;
+  document.getElementById('sugs').style.display = 'none';
 }
 
-document.getElementById('userInput').addEventListener('input', function () {
+document.getElementById('userInput').addEventListener('input', function() {
   this.style.height = 'auto';
   this.style.height = Math.min(this.scrollHeight, 90) + 'px';
 });
