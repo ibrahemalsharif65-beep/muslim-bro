@@ -122,6 +122,19 @@ body {
 .chat-item:hover { background: var(--hover); }
 .chat-item.active { background: var(--primary-light); color: var(--primary); font-weight: 600; }
 .chat-item svg { flex-shrink: 0; opacity: 0.5; }
+.chat-item .delete-chat {
+  margin-right: auto;
+  opacity: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #c0392b;
+  font-size: 14px;
+  padding: 0 2px;
+  transition: opacity .15s;
+  flex-shrink: 0;
+}
+.chat-item:hover .delete-chat { opacity: 1; }
 
 .sidebar-bottom {
   padding: 12px;
@@ -182,7 +195,7 @@ body {
 
 /* ===== AUTH OVERLAY ===== */
 .auth-overlay {
-  position: absolute;
+  position: fixed;
   inset: 0;
   background: var(--bg);
   display: flex;
@@ -636,12 +649,18 @@ body.dark .logout-card { background: #2a1515; border-color: #4a2525; }
 .mob-menu { display: none; }
 
 @media (max-width: 640px) {
-  .sidebar { position: fixed; right: -260px; top: 0; bottom: 0; z-index: 200; transition: right .3s; }
-  .sidebar.open { right: 0; }
-  .mob-menu { display: flex; }
   .mob-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 199; }
   .mob-overlay.show { display: block; }
 }
+
+.sidebar {
+  position: fixed;
+  right: -260px;
+  top: 0; bottom: 0;
+  z-index: 200;
+  transition: right .3s;
+}
+.sidebar.open { right: 0; }
 </style>
 </head>
 <body>
@@ -659,10 +678,6 @@ body.dark .logout-card { background: #2a1515; border-color: #4a2525; }
   </div>
   <div class="sidebar-chats" id="sidebarChats">
     <div class="chat-section-title">اليوم</div>
-    <div class="chat-item active" id="currentChatItem">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-      محادثة جديدة
-    </div>
   </div>
   <div class="sidebar-bottom">
     <button class="sidebar-btn" onclick="showSettings()">
@@ -715,24 +730,24 @@ body.dark .logout-card { background: #2a1515; border-color: #4a2525; }
       <div class="auth-divider">أو</div>
       <button class="auth-guest" onclick="enterAsGuest()">متابعة بدون تسجيل</button>
       <div class="auth-toggle">مش عندك حساب؟ <span id="authToggle" onclick="toggleMode()">سجل دلوقتي</span></div>
-    </div>
+      </div>
   </div>
 
   <!-- CHAT PAGE -->
   <div style="display:flex;flex-direction:column;height:100%;overflow:hidden;" id="chatPage">
     <!-- Header -->
-    <div class="chat-header">
-      <button class="mob-menu back-btn" onclick="openSidebar()" style="background:var(--hover);">☰</button>
-      <div class="chat-header-title">Your Muslim Bro 🤍</div>
-      <div style="font-size:11px;color:var(--sub);">بِسْمِ اللَّهِ</div>
-    </div>
-
-    <!-- Duaa banner -->
-    <div class="duaa-banner" id="duaaBanner">
-      <div class="duaa-trigger">
-        <div class="duaa-tip" id="duaaTip">👆 اضغط هنا</div>
-        <button class="duaa-btn" onclick="showDuaa()">🤲 دعاء</button>
+    <div class="chat-header" style="justify-content:space-between;direction:ltr;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="duaa-trigger" style="display:flex;flex-direction:column;align-items:center;gap:1px;">
+          <div class="duaa-tip" id="duaaTip" style="font-size:9px;color:var(--sub);">👆 اضغط</div>
+          <button class="duaa-btn" onclick="showDuaa()">🤲 دعاء</button>
+        </div>
       </div>
+      <div style="position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:14px;">🕌</div>
+        <div class="chat-header-title">Your Muslim Bro 🤍</div>
+      </div>
+      <button class="back-btn" onclick="openSidebar()" style="background:var(--hover);">☰</button>
     </div>
     <div class="duaa-msg" id="duaaMsg">
       🤲 اللهم وفّق إبراهيم أحمد إبراهيم في ثانويته العامة، واجعله يحقق المجموع الذي يتمناه، وأعنه واشرح له صدره ويسّر له أمره يا أرحم الراحمين 🤍
@@ -854,6 +869,27 @@ body.dark .logout-card { background: #2a1515; border-color: #4a2525; }
         </div>
       </div>
 
+      <div class="s-section-title">المطور</div>
+      <div class="s-card" style="padding:0;overflow:hidden;">
+        <div style="background:linear-gradient(135deg,var(--primary),var(--primary-dark));padding:20px;display:flex;align-items:center;gap:14px;">
+          <div style="width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">👨‍💻</div>
+          <div>
+            <div style="font-size:15px;font-weight:700;color:#fff;">إبراهيم أحمد إبراهيم</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.8);margin-top:2px;">🎓 طالب ثانوية عامة — تالتة ثانوي</div>
+          </div>
+        </div>
+        <div style="padding:14px 16px;display:flex;flex-direction:column;gap:10px;">
+          <div style="font-size:13px;color:var(--text);line-height:1.8;">
+            <span style="color:var(--primary);font-weight:600;">ادعولي بالتوفيق 🤲</span>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <span style="background:var(--primary-light);color:var(--primary);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;">💻 Developer</span>
+            <span style="background:var(--primary-light);color:var(--primary);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;">🕌 Muslim</span>
+            <span style="background:var(--primary-light);color:var(--primary);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;">📚 Student</span>
+          </div>
+        </div>
+      </div>
+
       <div class="logout-card" onclick="doLogout()">
         <span style="font-size:20px;">🚪</span>
         <span>تسجيل الخروج</span>
@@ -874,6 +910,15 @@ let busy = false;
 let currentUser = null;
 let userProfile = null;
 let chatStarted = false;
+
+// Toggle sidebar from auth screen
+function toggleAuthSidebar() {
+  const sb = document.getElementById('sidebar');
+  sb.style.display = sb.style.display === 'flex' ? 'none' : 'flex';
+}
+
+// Hide sidebar initially
+document.getElementById('sidebar').style.display = 'flex';
 
 // Load theme
 const isDark = localStorage.getItem('darkMode') === 'true';
@@ -901,6 +946,10 @@ function toggleMode() {
   document.getElementById('authToggle').textContent = isLogin ? 'سجل دلوقتي' : 'سجل دخول';
   document.getElementById('regFields').style.display = isLogin ? 'none' : 'flex';
   document.getElementById('authError').style.display = 'none';
+  // Keep the 3 bottom elements visible when switching modes
+  document.getElementById('authDivider').style.display = 'flex';
+  document.getElementById('authGuestBtn').style.display = 'block';
+  document.getElementById('authToggleRow').style.display = 'block';
 }
 
 async function handleAuth() {
@@ -908,15 +957,23 @@ async function handleAuth() {
   const pass = document.getElementById('authPass').value.trim();
   const errEl = document.getElementById('authError');
   errEl.style.display = 'none';
-  if (!email || !pass) { errEl.textContent = 'أدخل الإيميل وكلمة المرور'; errEl.style.display = 'block'; return; }
-  if (pass.length < 6) { errEl.textContent = 'كلمة المرور 6 أحرف على الأقل'; errEl.style.display = 'block'; return; }
+
+  // Email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  if (!email) { errEl.textContent = 'إبراهيم بيقولك: أدخل البريد الإلكتروني معلش 🙏'; errEl.style.display = 'block'; return; }
+  if (!emailRegex.test(email)) { errEl.textContent = 'إبراهيم بيقولك: الإيميل ده مش صح، اتأكد منه تاني زي name@gmail.com 😊'; errEl.style.display = 'block'; return; }
+
+  // Password validation
+  if (!pass) { errEl.textContent = 'إبراهيم بيقولك: أدخل كلمة المرور معلش 🙏'; errEl.style.display = 'block'; return; }
+  if (pass.length < 6) { errEl.textContent = 'إبراهيم بيقولك: كلمة المرور أقل من 6 أحرف، اكتبها تاني معلش 😊'; errEl.style.display = 'block'; return; }
+
   document.getElementById('authBtn').textContent = '...جاري';
 
   if (isLogin) {
     const res = await supaFetch('/auth/v1/token?grant_type=password', 'POST', { email, password: pass });
     const data = await res.json();
     if (!data.access_token) {
-      errEl.textContent = 'الإيميل أو كلمة المرور غلط';
+      errEl.textContent = 'إبراهيم بيقولك: الإيميل أو كلمة المرور غلط، اتأكد منهم تاني معلش 😊';
       errEl.style.display = 'block';
       document.getElementById('authBtn').textContent = 'دخول';
       return;
@@ -928,11 +985,13 @@ async function handleAuth() {
     const name = document.getElementById('regName').value.trim();
     const age = document.getElementById('regAge').value.trim();
     const gender = document.getElementById('regGender').value;
-    if (!name || !age || !gender) { errEl.textContent = 'أكمل كل البيانات'; errEl.style.display = 'block'; document.getElementById('authBtn').textContent = 'إنشاء حساب'; return; }
+    if (!name) { errEl.textContent = 'إبراهيم بيقولك: اكتب اسمك معلش 🙏'; errEl.style.display = 'block'; document.getElementById('authBtn').textContent = 'إنشاء حساب'; return; }
+    if (!age || parseInt(age) < 10 || parseInt(age) > 100) { errEl.textContent = 'إبراهيم بيقولك: اتأكد من عمرك تاني، لازم يكون بين 10 و 100 😊'; errEl.style.display = 'block'; document.getElementById('authBtn').textContent = 'إنشاء حساب'; return; }
+    if (!gender) { errEl.textContent = 'إبراهيم بيقولك: اختار الجنس معلش 🙏'; errEl.style.display = 'block'; document.getElementById('authBtn').textContent = 'إنشاء حساب'; return; }
     const res = await supaFetch('/auth/v1/signup', 'POST', { email, password: pass });
     const data = await res.json();
     if (!data.user && !data.access_token) {
-      errEl.textContent = 'حدث خطأ، جرب إيميل تاني';
+      errEl.textContent = 'إبراهيم بيقولك: حصل خطأ، جرب إيميل تاني معلش 😊';
       errEl.style.display = 'block';
       document.getElementById('authBtn').textContent = 'إنشاء حساب';
       return;
@@ -956,6 +1015,7 @@ async function loadProfile() {
 function enterChat() {
   document.getElementById('authOverlay').style.display = 'none';
   updateSidebar();
+  newChat();
   const name = userProfile?.name || 'أخي';
   setTimeout(() => {
     addBotMsg(`أهلاً ${name}! 🌿 أنا هنا أسمعك وأساعدك — سواء كان عندك سؤال ديني أو تمر بضغط نفسي. كلامنا بمصادر موثوقة فقط 🤍`);
@@ -965,6 +1025,7 @@ function enterChat() {
 function enterAsGuest() {
   document.getElementById('authOverlay').style.display = 'none';
   updateSidebar();
+  newChat();
 }
 
 function updateSidebar() {
@@ -996,8 +1057,12 @@ function addBotMsg(text) {
   row.appendChild(av); row.appendChild(content);
   area.appendChild(row); area.scrollTop = area.scrollHeight;
   chatStarted = true;
-  const label = text.substring(0, 30) + '...';
-  document.getElementById('currentChatItem').textContent = label;
+  const chat = chats.find(c => c.id === activeChatId);
+  if (chat && chat.label === 'محادثة جديدة') {
+    chat.label = text.substring(0, 28) + '...';
+    renderSidebar();
+  }
+  if (chat) chat.messages = area.innerHTML;
 }
 
 function addUserMsg(text) {
@@ -1058,15 +1123,77 @@ async function handleSend() {
 
 function sendSug(t) { document.getElementById('userInput').value = t; handleSend(); }
 
+let chats = []; // {id, label, history, messages}
+let activeChatId = null;
+
+function generateId() { return Date.now().toString(); }
+
+function renderSidebar() {
+  const container = document.getElementById('sidebarChats');
+  container.innerHTML = '<div class="chat-section-title">اليوم</div>';
+  chats.forEach(chat => {
+    const item = document.createElement('div');
+    item.className = 'chat-item' + (chat.id === activeChatId ? ' active' : '');
+    item.innerHTML = `
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+      <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${chat.label}</span>
+      <button class="delete-chat" onclick="deleteChat('${chat.id}', event)">🗑</button>
+    `;
+    item.onclick = () => switchChat(chat.id);
+    container.appendChild(item);
+  });
+}
+
+function saveActiveChat() {
+  if (!activeChatId) return;
+  const chat = chats.find(c => c.id === activeChatId);
+  if (chat) {
+    chat.history = [...history];
+    chat.messages = document.getElementById('chatArea').innerHTML;
+  }
+}
+
+function switchChat(id) {
+  saveActiveChat();
+  activeChatId = id;
+  const chat = chats.find(c => c.id === id);
+  history = [...chat.history];
+  document.getElementById('chatArea').innerHTML = chat.messages;
+  renderSidebar();
+  closeSidebar();
+}
+
+function deleteChat(id, e) {
+  e.stopPropagation();
+  chats = chats.filter(c => c.id !== id);
+  if (activeChatId === id) {
+    if (chats.length > 0) {
+      switchChat(chats[0].id);
+    } else {
+      activeChatId = null;
+      history = [];
+      newChat();
+      return;
+    }
+  }
+  renderSidebar();
+}
+
 function newChat() {
+  saveActiveChat();
   history = [];
+  const id = generateId();
+  const chat = { id, label: 'محادثة جديدة', history: [], messages: '' };
+  chats.unshift(chat);
+  activeChatId = id;
   const area = document.getElementById('chatArea');
   area.innerHTML = '';
   const welcome = document.createElement('div');
   welcome.className = 'welcome'; welcome.id = 'welcomeScreen';
   welcome.innerHTML = `<div class="welcome-logo">🕌</div><div class="welcome-title">Your Muslim Bro</div><div class="welcome-sub">رفيقك الديني والنفسي — أسألني عن أي شيء يشغل بالك</div><div class="welcome-ayah">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ<div class="welcome-ayah-src">📖 سورة الرعد · آية 28</div></div><div class="sugs-grid"><div class="sug-card" onclick="sendSug('عندي وسواس في الصلاة')"><div class="sug-icon">🧠</div><div class="sug-title">وسواس في الصلاة</div><div class="sug-sub">كيف أتعامل معه؟</div></div><div class="sug-card" onclick="sendSug('أشعر بالذنب وأريد التوبة')"><div class="sug-icon">💚</div><div class="sug-title">أريد التوبة</div><div class="sug-sub">باب التوبة مفتوح دائماً</div></div><div class="sug-card" onclick="sendSug('أنا حزين ومضغوط نفسياً')"><div class="sug-icon">🌧️</div><div class="sug-title">أنا مضغوط</div><div class="sug-sub">تكلم عما يؤلمك</div></div><div class="sug-card" onclick="sendSug('سؤال عن حكم شرعي')"><div class="sug-icon">📖</div><div class="sug-title">سؤال شرعي</div><div class="sug-sub">بمصادر موثوقة</div></div></div>`;
   area.appendChild(welcome);
-  document.getElementById('currentChatItem').textContent = 'محادثة جديدة';
+  chat.messages = area.innerHTML;
+  renderSidebar();
   closeSidebar();
 }
 
