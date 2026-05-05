@@ -394,8 +394,8 @@ async function handleAuth() {
   if (isLogin) {
     const res = await supaFetch('/auth/v1/token?grant_type=password', 'POST', { email, password: pass });
     const data = await res.json();
-    if (data.error || data.error_code) {
-      errEl.textContent = 'الإيميل أو كلمة المرور غلط';
+    if (data.error || data.error_code || !data.access_token) {
+      errEl.textContent = 'الإيميل أو كلمة المرور غلط، أو الحساب مش موجود';
       errEl.style.display = 'block';
       document.getElementById('authBtn').textContent = 'دخول';
       return;
